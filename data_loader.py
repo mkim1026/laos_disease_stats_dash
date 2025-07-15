@@ -52,4 +52,3 @@ def load_data_from_gsheets():
     )
 
     return laos_df, laos_regions, weather_df, news_df, neighbours_data
-

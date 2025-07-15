@@ -174,9 +174,8 @@ def create_weather_content(weather_df, laos_df):
     weather_df['sunset'] = pd.to_datetime(weather_df['sunset'])
     
     # Get current region data
-    # current_time = int(time.time())
-    # region_index = (current_time // 30) % len(weather_df)
-    region_index = 1
+    current_time = int(time.time())
+    region_index = (current_time // 30) % len(weather_df)
     region_data = weather_df.iloc[region_index - 1]
 
     # Prepare data for visualizations
@@ -268,16 +267,6 @@ def create_news_content(news_df):
 # --------------------------- Callbacks ------------------------------------
 
 def register_callbacks(app):
-    # # Load data once when the app starts
-    # laos_data = pd.read_csv("final_data/laos_data.csv")
-    # laos_data['reported date'] = pd.to_datetime(laos_data['reported date'])
-    # neighbours_data = pd.read_csv("final_data/neighbours_data.csv")
-    # laos_df = pd.read_csv("final_data/laos_df.csv")
-    # weather_df = pd.read_csv("final_data/weather_df.csv")
-    # news_df = pd.read_csv("final_data/news_df.csv")
-    #
-    # laos_data['reported date'] = pd.to_datetime(laos_data['reported date'])
-
     laos_data, laos_df, weather_df, news_df, neighbours_data = load_data_from_gsheets()
 
     @app.callback(

@@ -1,18 +1,11 @@
 import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
-from scipy.stats import gaussian_kde
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-import plotly.express as px
-from components.utils import format_kpi_value
 import json
 import folium
 from folium.plugins import MarkerCluster
 import matplotlib.pyplot as plt
-from matplotlib.colors import to_hex
-
-import plotly.figure_factory as ff
 from scipy.stats import gaussian_kde
 
 COLORS = ["#0081a7", "#00afb9", "#f07167", "#e9c46a",
