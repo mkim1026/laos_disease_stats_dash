@@ -1,14 +1,27 @@
-# data_loader.py
-
+import os
+import json
 import pandas as pd
 import gspread
+from dotenv import load_dotenv
 from gspread_dataframe import get_as_dataframe
 from oauth2client.service_account import ServiceAccountCredentials
 
+# Load environment variables from .env
+load_dotenv()
+
 def load_data_from_gsheets():
+
+    # Read the JSON string from .env and parse it
+    credentials_json = os.getenv("GOOGLE_CREDENTIALS_JSON")
+    if not credentials_json:
+        raise ValueError("Missing GOOGLE_CREDENTIALS_JSON in environment.")
+
+    # Convert JSON string to dictionary
+    credentials_dict = json.loads(credentials_json)
+
     # --- Auth & Setup ---
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    credentials = ServiceAccountCredentials.from_json_keyfile_name("tidy-arcade-411523-0c7d154f2150.json", scope)
+    credentials = ServiceAccountCredentials.from_json_keyfile_dict(credentials_dict, scope)
     client = gspread.authorize(credentials)
     spreadsheet = client.open("disease_stats")
 
@@ -39,3 +52,4 @@ def load_data_from_gsheets():
     )
 
     return laos_df, laos_regions, weather_df, news_df, neighbours_data
+

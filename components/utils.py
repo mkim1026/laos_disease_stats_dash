@@ -36,3 +36,12 @@ def get_date_marks(min_date, max_date):
         marks[timestamp] = {'label': current.strftime('%Y'), 'style': {'transform': 'rotate(45deg)'}}
         current = current + pd.DateOffset(years=1)
     return marks
+
+
+def format_kpi_value(kpi_value, decimals=1, prefix="$"):
+    if kpi_value >= 1e6:
+        return f"{prefix}{kpi_value / 1e6:.{decimals}f} M"
+    elif kpi_value >= 1e3:
+        return f"{prefix}{kpi_value / 1e3:.{decimals}f} K"
+    else:
+        return f"{prefix}{kpi_value:.2f}"

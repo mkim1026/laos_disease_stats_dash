@@ -5,7 +5,7 @@ from scipy.stats import gaussian_kde
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import plotly.express as px
-from utils import format_kpi_value
+from components.utils import format_kpi_value
 import json
 import folium
 from folium.plugins import MarkerCluster
