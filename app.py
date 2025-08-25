@@ -11,6 +11,8 @@ app = dash.Dash(__name__,
                 external_scripts=['https://cdn.plot.ly/plotly-latest.min.js'],
                 suppress_callback_exceptions=True)
 
+server = app.server
+
 # Set up layout
 app.layout = create_layout()
 
