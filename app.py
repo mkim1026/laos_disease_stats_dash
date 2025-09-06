@@ -1,22 +1,22 @@
+# app.py
 import os
-import dash
-import dash_bootstrap_components as dbc
 from flask import Flask
 from werkzeug.middleware.proxy_fix import ProxyFix
+import dash
+import dash_bootstrap_components as dbc
 
 from components.layout import create_layout
 from components.callbacks import register_callbacks
 
-# Flask 서버 생성 및 프록시 보정
+# Flask 서버 + 프록시 보정
 server = Flask(__name__)
 server.wsgi_app = ProxyFix(server.wsgi_app, x_proto=1, x_host=1)
 
-# Dash 앱
+# Dash 앱 (루트 경로 고정)
 app = dash.Dash(
     __name__,
     server=server,
     external_stylesheets=[dbc.themes.BOOTSTRAP],
-    external_scripts=['https://cdn.plot.ly/plotly-latest.min.js'],
     suppress_callback_exceptions=True,
     requests_pathname_prefix="/",
     routes_pathname_prefix="/",
@@ -26,10 +26,18 @@ app = dash.Dash(
 app.layout = create_layout()
 register_callbacks(app)
 
-# 헬스체크
+# 헬스체크(두 경로 모두 지원) + 텍스트 핑
 @server.route("/health")
 def health():
-    return "ok", 200
+    return "ok", 200, {"Content-Type": "text/plain"}
+
+@server.route("/healthz")
+def healthz():
+    return "ok", 200, {"Content-Type": "text/plain"}
+
+@server.route("/ping")
+def ping():
+    return "ok", 200, {"Content-Type": "text/plain"}
 
 # 로컬 실행 전용
 if __name__ == "__main__":
